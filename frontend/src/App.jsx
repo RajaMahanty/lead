@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Navbar from "./componenets/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Leads from "./pages/Leads";
@@ -26,33 +27,36 @@ function Layout({ children }) {
 
 export default function App() {
 	return (
-		<Routes>
-			{/* Public */}
-			<Route path="/login" element={<Login />} />
-			<Route path="/register" element={<Register />} />
+		<>
+			<Routes>
+				{/* Public */}
+				<Route path="/login" element={<Login />} />
+				<Route path="/register" element={<Register />} />
 
-			{/* Protected */}
-			<Route
-				path="/"
-				element={
-					<ProtectedRoute>
-						<Layout>
-							<Dashboard />
-						</Layout>
-					</ProtectedRoute>
-				}
-			/>
+				{/* Protected */}
+				<Route
+					path="/"
+					element={
+						<ProtectedRoute>
+							<Layout>
+								<Dashboard />
+							</Layout>
+						</ProtectedRoute>
+					}
+				/>
 
-			<Route
-				path="/leads"
-				element={
-					<ProtectedRoute>
-						<Layout>
-							<Leads />
-						</Layout>
-					</ProtectedRoute>
-				}
-			/>
-		</Routes>
+				<Route
+					path="/leads"
+					element={
+						<ProtectedRoute>
+							<Layout>
+								<Leads />
+							</Layout>
+						</ProtectedRoute>
+					}
+				/>
+			</Routes>
+			<ToastContainer position="bottom-right" autoClose={3000} />
+		</>
 	);
 }

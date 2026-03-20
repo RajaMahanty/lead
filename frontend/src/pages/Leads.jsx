@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import api from "../api/axios";
 import LeadModal from "../componenets/LeadModal";
 
@@ -19,7 +20,6 @@ export default function Leads() {
 		subject: "",
 		message: "",
 	});
-	const [emailNotice, setEmailNotice] = useState("");
 
 	const fetchLeads = async () => {
 		try {
@@ -28,6 +28,7 @@ export default function Leads() {
 			setLeads(res.data);
 		} catch (err) {
 			console.error(err);
+			toast.error("Failed to fetch leads");
 		} finally {
 			setLoading(false);
 		}
@@ -59,7 +60,6 @@ export default function Leads() {
 			subject: "",
 			message: "",
 		});
-		setEmailNotice("");
 		setShowModal(true);
 	};
 
@@ -77,7 +77,6 @@ export default function Leads() {
 			subject: "",
 			message: "",
 		});
-		setEmailNotice("");
 		setShowModal(true);
 	};
 
@@ -88,7 +87,6 @@ export default function Leads() {
 		setForm({ name: "", email: "", phone: "", status: "new" });
 		setFile(null);
 		setEmailForm({ subject: "", message: "" });
-		setEmailNotice("");
 	};
 
 	const handleSubmit = async (e) => {
@@ -115,14 +113,16 @@ export default function Leads() {
 			setIsCreateMode(false);
 			setSelectedLead(null);
 			setFile(null);
-			setEmailNotice("");
 			setEmailForm({ subject: "", message: "" });
 			setForm({ name: "", email: "", phone: "", status: "new" });
+			toast.success(isCreateMode ? "Lead created" : "Lead updated");
 
 			fetchLeads();
 		} catch (err) {
 			console.error(err);
-			alert(isCreateMode ? "Failed to create lead" : "Failed to update lead");
+			toast.error(
+				isCreateMode ? "Failed to create lead" : "Failed to update lead",
+			);
 		}
 	};
 
@@ -134,12 +134,12 @@ export default function Leads() {
 		e.preventDefault();
 
 		if (!selectedLead?._id) {
-			setEmailNotice("No lead selected.");
+			toast.error("No lead selected.");
 			return;
 		}
 
 		if (!emailForm.subject.trim() || !emailForm.message.trim()) {
-			setEmailNotice("Please enter subject and message before sending.");
+			toast.error("Please enter subject and message before sending.");
 			return;
 		}
 
@@ -149,7 +149,7 @@ export default function Leads() {
 				message: emailForm.message,
 			});
 
-			setEmailNotice(
+			toast.success(
 				`Email sent to ${form.email}. Status updated to contacted.`,
 			);
 			setEmailForm({ subject: "", message: "" });
@@ -163,7 +163,7 @@ export default function Leads() {
 				);
 			}
 		} catch (err) {
-			setEmailNotice(err.response?.data?.msg || "Failed to send email.");
+			toast.error(err.response?.data?.msg || "Failed to send email.");
 		}
 	};
 
@@ -179,10 +179,11 @@ export default function Leads() {
 		try {
 			await api.delete(`/leads/${selectedLead._id}`);
 			setLeads((prev) => prev.filter((lead) => lead._id !== selectedLead._id));
+			toast.success("Lead deleted");
 			closeLeadModal();
 		} catch (err) {
 			console.error(err);
-			alert("Failed to delete lead");
+			toast.error("Failed to delete lead");
 		}
 	};
 
@@ -273,7 +274,6 @@ export default function Leads() {
 				emailForm={emailForm}
 				onEmailChange={handleEmailChange}
 				onSendEmail={handleSendEmail}
-				emailNotice={emailNotice}
 				onDelete={handleDeleteLead}
 			/>
 		</div>

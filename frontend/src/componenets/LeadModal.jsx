@@ -10,7 +10,6 @@ export default function LeadModal({
 	emailForm,
 	onEmailChange,
 	onSendEmail,
-	emailNotice,
 	onDelete,
 }) {
 	if (!isOpen) return null;
@@ -158,12 +157,6 @@ export default function LeadModal({
 								Send Email
 							</button>
 						</div>
-
-						{emailNotice && (
-							<p className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded p-2">
-								{emailNotice}
-							</p>
-						)}
 					</form>
 				)}
 			</div>

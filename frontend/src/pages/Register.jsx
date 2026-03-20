@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import api from "../api/axios";
 
 export default function Register() {
@@ -12,7 +13,6 @@ export default function Register() {
 	});
 
 	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState("");
 
 	const handleChange = (e) => {
 		setForm({
@@ -24,18 +24,18 @@ export default function Register() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		setError("");
 
 		try {
 			const res = await api.post("/auth/register", form);
 
 			// ✅ store token
 			localStorage.setItem("token", res.data.token);
+			toast.success("Registration successful");
 
 			// ✅ redirect to dashboard (/)
 			navigate("/");
 		} catch (err) {
-			setError(err.response?.data?.message || "Registration failed");
+			toast.error(err.response?.data?.message || "Registration failed");
 		} finally {
 			setLoading(false);
 		}
@@ -78,8 +78,6 @@ export default function Register() {
 					className="w-full mb-3 p-2 border rounded"
 					required
 				/>
-
-				{error && <p className="text-red-500 text-sm mb-2">{error}</p>}
 
 				<button
 					type="submit"

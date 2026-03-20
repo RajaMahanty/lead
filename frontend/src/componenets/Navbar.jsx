@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
 	const navigate = useNavigate();
 
 	const handleLogout = () => {
 		localStorage.removeItem("token");
+		toast.info("Logged out successfully");
 		navigate("/login");
 	};
 
