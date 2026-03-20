@@ -9,7 +9,7 @@ export const register = async (req, res) => {
 
 		const exists = await User.findOne({ email });
 		if (exists) {
-			return res.status(400).json({ msg: "User already exists" });
+			return res.status(400).json({ message: "User already exists" });
 		}
 
 		const hashedPassword = await bcrypt.hash(password, 10);
@@ -24,7 +24,7 @@ export const register = async (req, res) => {
 			token: generateToken(user._id),
 		});
 	} catch (err) {
-		res.status(500).json({ msg: err.message });
+		res.status(500).json({ message: err.message });
 	}
 };
 
@@ -35,19 +35,19 @@ export const login = async (req, res) => {
 
 		const user = await User.findOne({ email });
 		if (!user) {
-			return res.status(400).json({ msg: "Invalid credentials" });
+			return res.status(400).json({ message: "Invalid credentials" });
 		}
 
 		const isMatch = await bcrypt.compare(password, user.password);
 
 		if (!isMatch) {
-			return res.status(400).json({ msg: "Invalid credentials" });
+			return res.status(400).json({ message: "Invalid credentials" });
 		}
 
 		res.json({
 			token: generateToken(user._id),
 		});
 	} catch (err) {
-		res.status(500).json({ msg: err.message });
+		res.status(500).json({ message: err.message });
 	}
 };

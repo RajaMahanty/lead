@@ -1,3 +1,12 @@
+const API_BASE_URL =
+	import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api/v1";
+const BACKEND_BASE_URL = API_BASE_URL.replace(/\/api\/v1\/?$/, "");
+
+const getImageUrl = (imagePath) => {
+	const normalizedPath = String(imagePath || "").replace(/^\/+/, "");
+	return `${BACKEND_BASE_URL}/${normalizedPath}`;
+};
+
 export default function LeadModal({
 	isOpen,
 	isCreateMode,
@@ -42,7 +51,7 @@ export default function LeadModal({
 					<div className="flex justify-center">
 						{selectedLead.image ? (
 							<img
-								src={`http://localhost:5000/${selectedLead.image}`}
+								src={getImageUrl(selectedLead.image)}
 								alt={selectedLead.name}
 								className="w-20 h-20 rounded-full object-cover border"
 							/>

@@ -24,7 +24,7 @@ export const getLeads = async (req, res) => {
 		const leads = await Lead.find().sort({ createdAt: -1 });
 		res.json(leads);
 	} catch (err) {
-		res.status(500).json({ msg: err.message });
+		res.status(500).json({ message: err.message });
 	}
 };
 
@@ -38,9 +38,14 @@ export const updateLead = async (req, res) => {
 		const lead = await Lead.findByIdAndUpdate(req.params.id, updateData, {
 			returnDocument: "after",
 		});
+
+		if (!lead) {
+			return res.status(404).json({ message: "Lead not found" });
+		}
+
 		res.json(lead);
 	} catch (err) {
-		res.status(500).json({ msg: err.message });
+		res.status(500).json({ message: err.message });
 	}
 };
 
@@ -50,12 +55,12 @@ export const deleteLead = async (req, res) => {
 		const lead = await Lead.findByIdAndDelete(req.params.id);
 
 		if (!lead) {
-			return res.status(404).json({ msg: "Lead not found" });
+			return res.status(404).json({ message: "Lead not found" });
 		}
 
-		res.json({ msg: "Lead deleted" });
+		res.json({ message: "Lead deleted" });
 	} catch (err) {
-		res.status(500).json({ msg: err.message });
+		res.status(500).json({ message: err.message });
 	}
 };
 // UPDATE STATUS
@@ -69,9 +74,13 @@ export const updateStatus = async (req, res) => {
 			{ returnDocument: "after", runValidators: true },
 		);
 
+		if (!lead) {
+			return res.status(404).json({ message: "Lead not found" });
+		}
+
 		res.json(lead);
 	} catch (err) {
-		res.status(500).json({ msg: err.message });
+		res.status(500).json({ message: err.message });
 	}
 };
 
@@ -83,12 +92,12 @@ export const sendLeadEmail = async (req, res) => {
 		const lead = await Lead.findById(req.params.id);
 
 		if (!lead) {
-			return res.status(404).json({ msg: "Lead not found" });
+			return res.status(404).json({ message: "Lead not found" });
 		}
 
 		if (lead.status !== "new") {
 			return res.status(400).json({
-				msg: "Email can only be sent when lead status is new",
+				message: "Email can only be sent when lead status is new",
 			});
 		}
 
@@ -104,10 +113,10 @@ export const sendLeadEmail = async (req, res) => {
 
 		res.json({
 			success: true,
-			msg: "Email sent and status updated to contacted",
+			message: "Email sent and status updated to contacted",
 			data: lead,
 		});
 	} catch (err) {
-		res.status(500).json({ msg: err.message });
+		res.status(500).json({ message: err.message });
 	}
 };

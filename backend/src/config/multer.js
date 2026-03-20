@@ -1,11 +1,18 @@
 import multer from "multer";
 import fs from "fs";
+import path from "path";
 
 // ensure uploads folder exists
-const uploadDir = "uploads";
+const uploadDir = path.resolve("uploads");
 if (!fs.existsSync(uploadDir)) {
-	fs.mkdirSync(uploadDir);
+	fs.mkdirSync(uploadDir, { recursive: true });
 }
+
+const slugify = (value) =>
+	value
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-+|-+$/g, "") || "file";
 
 // storage config
 const storage = multer.diskStorage({
@@ -13,7 +20,10 @@ const storage = multer.diskStorage({
 		cb(null, uploadDir);
 	},
 	filename: (req, file, cb) => {
-		const uniqueName = Date.now() + "-" + file.originalname;
+		const ext = path.extname(file.originalname).toLowerCase();
+		const baseName = path.basename(file.originalname, ext);
+		const safeBaseName = slugify(baseName);
+		const uniqueName = `${safeBaseName}-${Date.now()}${ext}`;
 		cb(null, uniqueName);
 	},
 });

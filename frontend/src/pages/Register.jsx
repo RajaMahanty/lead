@@ -28,11 +28,9 @@ export default function Register() {
 		try {
 			const res = await api.post("/auth/register", form);
 
-			// ✅ store token
 			localStorage.setItem("token", res.data.token);
 			toast.success("Registration successful");
 
-			// ✅ redirect to dashboard (/)
 			navigate("/");
 		} catch (err) {
 			toast.error(err.response?.data?.message || "Registration failed");

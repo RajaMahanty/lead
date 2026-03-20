@@ -6,7 +6,7 @@ export const protect = (req, res, next) => {
 
 		// Check if token exists
 		if (!authHeader || !authHeader.startsWith("Bearer ")) {
-			return res.status(401).json({ msg: "Not authorized, no token" });
+			return res.status(401).json({ message: "Not authorized, no token" });
 		}
 
 		// Extract token
@@ -20,6 +20,6 @@ export const protect = (req, res, next) => {
 
 		next();
 	} catch (err) {
-		return res.status(401).json({ msg: "Invalid or expired token" });
+		return res.status(401).json({ message: "Invalid or expired token" });
 	}
 };

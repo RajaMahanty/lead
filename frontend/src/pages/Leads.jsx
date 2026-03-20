@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../api/axios";
-import LeadModal from "../componenets/LeadModal";
+import LeadModal from "../components/LeadModal";
+
+const API_BASE_URL =
+	import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api/v1";
+const BACKEND_BASE_URL = API_BASE_URL.replace(/\/api\/v1\/?$/, "");
+
+const getImageUrl = (imagePath) => {
+	const normalizedPath = String(imagePath || "").replace(/^\/+/, "");
+	return `${BACKEND_BASE_URL}/${normalizedPath}`;
+};
 
 export default function Leads() {
 	const [leads, setLeads] = useState([]);
@@ -163,7 +172,7 @@ export default function Leads() {
 				);
 			}
 		} catch (err) {
-			toast.error(err.response?.data?.msg || "Failed to send email.");
+			toast.error(err.response?.data?.message || "Failed to send email.");
 		}
 	};
 
@@ -227,7 +236,7 @@ export default function Leads() {
 									<td className="p-4 flex items-center gap-3">
 										{lead.image ? (
 											<img
-												src={`http://localhost:5000/${lead.image}`}
+												src={getImageUrl(lead.image)}
 												alt={lead.name}
 												className="w-10 h-10 rounded-full object-cover"
 											/>

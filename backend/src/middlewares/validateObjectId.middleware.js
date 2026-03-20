@@ -5,7 +5,7 @@ export const validateObjectId = (paramName = "id") => {
 		const id = req.params[paramName];
 
 		if (!mongoose.Types.ObjectId.isValid(id)) {
-			return res.status(400).json({ msg: "Invalid ID" });
+			return res.status(400).json({ message: "Invalid ID" });
 		}
 
 		next();
