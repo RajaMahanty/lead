@@ -1,8 +1,5 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-
-function Login() {
-	return <h1>Login Page</h1>;
-}
+import { Navigate, Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
 
 function Register() {
 	return <h1>Register Page</h1>;
