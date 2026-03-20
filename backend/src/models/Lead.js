@@ -10,6 +10,10 @@ const leadSchema = new mongoose.Schema(
 			enum: ["new", "contacted", "converted"],
 			default: "new",
 		},
+		image: {
+			type: String,
+			default: null,
+		},
 	},
 	{ timestamps: true },
 );

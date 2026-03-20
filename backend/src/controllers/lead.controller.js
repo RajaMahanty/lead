@@ -3,10 +3,17 @@ import Lead from "../models/Lead.js";
 // CREATE
 export const createLead = async (req, res) => {
 	try {
-		const lead = await Lead.create(req.body);
-		res.status(201).json(lead);
-	} catch (err) {
-		res.status(500).json({ msg: err.message });
+		const lead = await Lead.create({
+			...req.body,
+			image: req.file ? req.file.path : null,
+		});
+
+		res.status(201).json({
+			success: true,
+			data: lead,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
 	}
 };
 

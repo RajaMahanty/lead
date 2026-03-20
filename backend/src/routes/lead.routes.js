@@ -1,4 +1,6 @@
 import express from "express";
+import { upload } from "../config/multer.js";
+
 import {
 	createLead,
 	deleteLead,
@@ -10,6 +12,7 @@ import {
 import { protect } from "../middlewares/auth.middleware.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+
 import {
 	createLeadSchema,
 	updateLeadSchema,
@@ -20,7 +23,12 @@ const leadRoutes = express.Router();
 
 leadRoutes.use(protect);
 
-leadRoutes.post("/", validate(createLeadSchema), createLead);
+leadRoutes.post(
+	"/",
+	upload.single("image"),
+	validate(createLeadSchema),
+	createLead,
+);
 leadRoutes.get("/", getLeads);
 leadRoutes.put(
 	"/:id",
