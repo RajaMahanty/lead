@@ -1,23 +1,39 @@
 import express from "express";
 import {
 	createLead,
+	deleteLead,
 	getLeads,
 	updateLead,
-	deleteLead,
 	updateStatus,
 } from "../controllers/lead.controller.js";
 
 import { protect } from "../middlewares/auth.middleware.js";
+import { validate } from "../middlewares/validate.middleware.js";
 import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+import {
+	createLeadSchema,
+	updateLeadSchema,
+	updateStatusSchema,
+} from "../validations/lead.validation.js";
 
 const leadRoutes = express.Router();
 
 leadRoutes.use(protect);
 
-leadRoutes.post("/", createLead);
+leadRoutes.post("/", validate(createLeadSchema), createLead);
 leadRoutes.get("/", getLeads);
-leadRoutes.put("/:id", validateObjectId(), updateLead);
+leadRoutes.put(
+	"/:id",
+	validateObjectId(),
+	validate(updateLeadSchema),
+	updateLead,
+);
 leadRoutes.delete("/:id", validateObjectId(), deleteLead);
-leadRoutes.patch("/:id/status", validateObjectId(), updateStatus);
+leadRoutes.patch(
+	"/:id/status",
+	validateObjectId(),
+	validate(updateStatusSchema),
+	updateStatus,
+);
 
 export default leadRoutes;
