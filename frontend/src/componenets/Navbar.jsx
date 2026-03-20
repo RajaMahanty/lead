@@ -10,7 +10,7 @@ export default function Navbar() {
 
 	return (
 		<nav className="sticky top-0 z-50 bg-white shadow px-6 py-4 flex justify-between items-center">
-			<h1 className="text-xl font-bold text-blue-600">CRM</h1>
+			<h1 className="text-xl font-bold text-blue-600">LEAD</h1>
 
 			<div className="flex items-center gap-6">
 				<Link to="/" className="text-gray-700 hover:text-blue-600">

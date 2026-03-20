@@ -39,3 +39,8 @@ export const updateStatusSchema = Joi.object({
 		.valid(...statusEnum)
 		.required(),
 });
+
+export const sendLeadEmailSchema = Joi.object({
+	subject: Joi.string().trim().min(1).max(200).required(),
+	message: Joi.string().trim().min(1).required(),
+});

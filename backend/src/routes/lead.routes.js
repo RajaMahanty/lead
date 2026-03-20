@@ -5,6 +5,7 @@ import {
 	createLead,
 	deleteLead,
 	getLeads,
+	sendLeadEmail,
 	updateLead,
 	updateStatus,
 } from "../controllers/lead.controller.js";
@@ -15,6 +16,7 @@ import { validateObjectId } from "../middlewares/validateObjectId.middleware.js"
 
 import {
 	createLeadSchema,
+	sendLeadEmailSchema,
 	updateLeadSchema,
 	updateStatusSchema,
 } from "../validations/lead.validation.js";
@@ -43,6 +45,12 @@ leadRoutes.patch(
 	validateObjectId(),
 	validate(updateStatusSchema),
 	updateStatus,
+);
+leadRoutes.post(
+	"/:id/send-email",
+	validateObjectId(),
+	validate(sendLeadEmailSchema),
+	sendLeadEmail,
 );
 
 export default leadRoutes;

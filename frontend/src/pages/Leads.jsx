@@ -130,18 +130,60 @@ export default function Leads() {
 		setEmailForm({ ...emailForm, [e.target.name]: e.target.value });
 	};
 
-	const handleSendEmail = (e) => {
+	const handleSendEmail = async (e) => {
 		e.preventDefault();
+
+		if (!selectedLead?._id) {
+			setEmailNotice("No lead selected.");
+			return;
+		}
 
 		if (!emailForm.subject.trim() || !emailForm.message.trim()) {
 			setEmailNotice("Please enter subject and message before sending.");
 			return;
 		}
 
-		setEmailNotice(
-			`Email preview sent to ${form.email} (frontend only, no backend call).`,
+		try {
+			const res = await api.post(`/leads/${selectedLead._id}/send-email`, {
+				subject: emailForm.subject,
+				message: emailForm.message,
+			});
+
+			setEmailNotice(
+				`Email sent to ${form.email}. Status updated to contacted.`,
+			);
+			setEmailForm({ subject: "", message: "" });
+			setForm((prev) => ({ ...prev, status: "contacted" }));
+
+			if (res.data?.data?._id) {
+				setLeads((prev) =>
+					prev.map((lead) =>
+						lead._id === res.data.data._id ? res.data.data : lead,
+					),
+				);
+			}
+		} catch (err) {
+			setEmailNotice(err.response?.data?.msg || "Failed to send email.");
+		}
+	};
+
+	const handleDeleteLead = async () => {
+		if (!selectedLead?._id) return;
+
+		const confirmed = window.confirm(
+			`Are you sure you want to delete ${selectedLead.name}?`,
 		);
-		setEmailForm((prev) => ({ ...prev, message: "" }));
+
+		if (!confirmed) return;
+
+		try {
+			await api.delete(`/leads/${selectedLead._id}`);
+			setLeads((prev) => prev.filter((lead) => lead._id !== selectedLead._id));
+			closeLeadModal();
+		} catch (err) {
+			console.error(err);
+			alert("Failed to delete lead");
+		}
 	};
 
 	if (loading) return <p className="p-6 text-gray-600">Loading leads...</p>;
@@ -232,6 +274,7 @@ export default function Leads() {
 				onEmailChange={handleEmailChange}
 				onSendEmail={handleSendEmail}
 				emailNotice={emailNotice}
+				onDelete={handleDeleteLead}
 			/>
 		</div>
 	);

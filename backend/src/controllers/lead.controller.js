@@ -1,4 +1,5 @@
 import Lead from "../models/Lead.js";
+import sendEmail from "../utils/sendEmail.js";
 
 // CREATE
 export const createLead = async (req, res) => {
@@ -35,7 +36,7 @@ export const updateLead = async (req, res) => {
 			updateData.image = req.file.path;
 		}
 		const lead = await Lead.findByIdAndUpdate(req.params.id, updateData, {
-			new: true,
+			returnDocument: "after",
 		});
 		res.json(lead);
 	} catch (err) {
@@ -65,10 +66,47 @@ export const updateStatus = async (req, res) => {
 		const lead = await Lead.findByIdAndUpdate(
 			req.params.id,
 			{ status },
-			{ new: true, runValidators: true },
+			{ returnDocument: "after", runValidators: true },
 		);
 
 		res.json(lead);
+	} catch (err) {
+		res.status(500).json({ msg: err.message });
+	}
+};
+
+// SEND EMAIL + UPDATE STATUS (new -> contacted)
+export const sendLeadEmail = async (req, res) => {
+	try {
+		const { subject, message } = req.body;
+
+		const lead = await Lead.findById(req.params.id);
+
+		if (!lead) {
+			return res.status(404).json({ msg: "Lead not found" });
+		}
+
+		if (lead.status !== "new") {
+			return res.status(400).json({
+				msg: "Email can only be sent when lead status is new",
+			});
+		}
+
+		await sendEmail({
+			to: lead.email,
+			subject,
+			text: message,
+			html: `<p>${message.replace(/\n/g, "<br/>")}</p>`,
+		});
+
+		lead.status = "contacted";
+		await lead.save();
+
+		res.json({
+			success: true,
+			msg: "Email sent and status updated to contacted",
+			data: lead,
+		});
 	} catch (err) {
 		res.status(500).json({ msg: err.message });
 	}

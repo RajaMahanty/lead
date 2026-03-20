@@ -1,12 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "./componenets/Navbar";
+import Dashboard from "./pages/Dashboard";
 import Leads from "./pages/Leads";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
-function Dashboard() {
-	return <h1>Dashboard</h1>;
-}
 
 function ProtectedRoute({ children }) {
 	const token = localStorage.getItem("token");

@@ -11,6 +11,7 @@ export default function LeadModal({
 	onEmailChange,
 	onSendEmail,
 	emailNotice,
+	onDelete,
 }) {
 	if (!isOpen) return null;
 
@@ -105,7 +106,17 @@ export default function LeadModal({
 						onChange={onFileChange}
 					/>
 
-					<div className="flex justify-end">
+					<div className="flex items-center justify-end gap-2">
+						{!isCreateMode && (
+							<button
+								type="button"
+								onClick={onDelete}
+								className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+							>
+								Delete Lead
+							</button>
+						)}
+
 						<button
 							type="submit"
 							className="bg-blue-600 text-white px-4 py-2 rounded"
