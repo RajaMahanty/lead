@@ -30,7 +30,11 @@ export const getLeads = async (req, res) => {
 // UPDATE
 export const updateLead = async (req, res) => {
 	try {
-		const lead = await Lead.findByIdAndUpdate(req.params.id, req.body, {
+		const updateData = { ...req.body };
+		if (req.file) {
+			updateData.image = req.file.path;
+		}
+		const lead = await Lead.findByIdAndUpdate(req.params.id, updateData, {
 			new: true,
 		});
 		res.json(lead);

@@ -1,16 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import Navbar from "./componenets/Navbar";
+import Leads from "./pages/Leads";
 import Login from "./pages/Login";
-
-function Register() {
-	return <h1>Register Page</h1>;
-}
+import Register from "./pages/Register";
 
 function Dashboard() {
 	return <h1>Dashboard</h1>;
-}
-
-function Leads() {
-	return <h1>Leads Page</h1>;
 }
 
 function ProtectedRoute({ children }) {
@@ -21,6 +16,15 @@ function ProtectedRoute({ children }) {
 	}
 
 	return children;
+}
+
+function Layout({ children }) {
+	return (
+		<>
+			<Navbar />
+			<main>{children}</main>
+		</>
+	);
 }
 
 export default function App() {
@@ -35,7 +39,9 @@ export default function App() {
 				path="/"
 				element={
 					<ProtectedRoute>
-						<Dashboard />
+						<Layout>
+							<Dashboard />
+						</Layout>
 					</ProtectedRoute>
 				}
 			/>
@@ -44,7 +50,9 @@ export default function App() {
 				path="/leads"
 				element={
 					<ProtectedRoute>
-						<Leads />
+						<Layout>
+							<Leads />
+						</Layout>
 					</ProtectedRoute>
 				}
 			/>

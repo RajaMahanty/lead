@@ -32,6 +32,7 @@ leadRoutes.post(
 leadRoutes.get("/", getLeads);
 leadRoutes.put(
 	"/:id",
+	upload.single("image"),
 	validateObjectId(),
 	validate(updateLeadSchema),
 	updateLead,
