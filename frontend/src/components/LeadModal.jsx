@@ -25,14 +25,14 @@ export default function LeadModal({
 
 	return (
 		<div className="fixed inset-0 z-60 bg-black/40 flex items-center justify-center">
-			<div className="bg-white p-6 rounded-xl w-full max-w-2xl space-y-6 shadow-lg">
+			<div className="bg-white/95 border border-brand-text/15 p-6 rounded-xl w-full max-w-2xl space-y-6 shadow-lg">
 				<div className="flex items-start justify-between gap-4">
 					<div>
-						<h2 className="text-xl font-bold text-gray-800">
+						<h2 className="text-xl font-bold text-brand-text">
 							{isCreateMode ? "Add Lead" : "Manage Lead"}
 						</h2>
 						{!isCreateMode && selectedLead && (
-							<p className="text-sm text-gray-500">
+							<p className="text-sm text-brand-text/70">
 								{selectedLead.name} • {selectedLead.email}
 							</p>
 						)}
@@ -41,7 +41,7 @@ export default function LeadModal({
 					<button
 						type="button"
 						onClick={onClose}
-						className="px-3 py-1 border rounded"
+						className="px-3 py-1 border border-brand-text/30 text-brand-text rounded-md hover:bg-brand-bg transition"
 					>
 						Close
 					</button>
@@ -56,7 +56,7 @@ export default function LeadModal({
 								className="w-20 h-20 rounded-full object-cover border"
 							/>
 						) : (
-							<div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-2xl font-medium text-gray-700 border">
+							<div className="w-20 h-20 rounded-full bg-brand-text/15 flex items-center justify-center text-2xl font-medium text-brand-text border border-brand-text/20">
 								{selectedLead.name?.[0] || "L"}
 							</div>
 						)}
@@ -64,7 +64,7 @@ export default function LeadModal({
 				)}
 
 				<form onSubmit={onSubmit} className="space-y-3 border-b pb-5">
-					<h3 className="font-semibold text-gray-700">
+					<h3 className="font-semibold text-brand-text">
 						{isCreateMode ? "Lead Info" : "Update Lead Info"}
 					</h3>
 
@@ -74,7 +74,7 @@ export default function LeadModal({
 							placeholder="Name"
 							value={form.name}
 							onChange={onFormChange}
-							className="w-full border p-2 rounded"
+							className="w-full border border-brand-text/20 p-2 rounded text-brand-text placeholder:text-brand-text/50"
 							required
 						/>
 
@@ -83,7 +83,7 @@ export default function LeadModal({
 							placeholder="Email"
 							value={form.email}
 							onChange={onFormChange}
-							className="w-full border p-2 rounded"
+							className="w-full border border-brand-text/20 p-2 rounded text-brand-text placeholder:text-brand-text/50"
 							required
 						/>
 
@@ -92,7 +92,7 @@ export default function LeadModal({
 							placeholder="Phone"
 							value={form.phone}
 							onChange={onFormChange}
-							className="w-full border p-2 rounded"
+							className="w-full border border-brand-text/20 p-2 rounded text-brand-text placeholder:text-brand-text/50"
 							required
 						/>
 
@@ -100,7 +100,7 @@ export default function LeadModal({
 							name="status"
 							value={form.status}
 							onChange={onFormChange}
-							className="w-full border p-2 rounded"
+							className="w-full border border-brand-text/20 p-2 rounded text-brand-text"
 						>
 							<option value="new">New</option>
 							<option value="contacted">Contacted</option>
@@ -109,7 +109,7 @@ export default function LeadModal({
 					</div>
 
 					<input
-						className="w-full border p-2 rounded"
+						className="w-full border border-brand-text/20 p-2 rounded text-brand-text"
 						type="file"
 						onChange={onFileChange}
 					/>
@@ -127,7 +127,7 @@ export default function LeadModal({
 
 						<button
 							type="submit"
-							className="bg-blue-600 text-white px-4 py-2 rounded"
+							className="bg-brand-text text-brand-bg px-4 py-2 rounded hover:opacity-90 transition"
 						>
 							{isCreateMode ? "Create Lead" : "Update Lead"}
 						</button>
@@ -136,14 +136,14 @@ export default function LeadModal({
 
 				{!isCreateMode && (
 					<form onSubmit={onSendEmail} className="space-y-3">
-						<h3 className="font-semibold text-gray-700">Compose Email</h3>
+						<h3 className="font-semibold text-brand-text">Compose Email</h3>
 
 						<input
 							name="subject"
 							value={emailForm.subject}
 							onChange={onEmailChange}
 							placeholder="Email subject"
-							className="w-full border p-2 rounded"
+							className="w-full border border-brand-text/20 p-2 rounded text-brand-text placeholder:text-brand-text/50"
 						/>
 
 						<textarea
@@ -151,17 +151,17 @@ export default function LeadModal({
 							value={emailForm.message}
 							onChange={onEmailChange}
 							placeholder="Write your message to this lead..."
-							className="w-full border p-2 rounded min-h-32"
+							className="w-full border border-brand-text/20 p-2 rounded min-h-32 text-brand-text placeholder:text-brand-text/50"
 						/>
 
 						<div className="flex items-center justify-between gap-2">
-							<p className="text-xs text-gray-500">
+							<p className="text-xs text-brand-text/70">
 								Recipient: <span className="font-medium">{form.email}</span>
 							</p>
 
 							<button
 								type="submit"
-								className="bg-emerald-600 text-white px-4 py-2 rounded"
+								className="bg-brand-text text-brand-bg px-4 py-2 rounded hover:opacity-90 transition"
 							>
 								Send Email
 							</button>

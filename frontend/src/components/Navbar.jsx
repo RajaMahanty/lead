@@ -11,21 +11,27 @@ export default function Navbar() {
 	};
 
 	return (
-		<nav className="sticky top-0 z-50 bg-white shadow px-6 py-4 flex justify-between items-center">
-			<h1 className="text-xl font-bold text-blue-600">LEAD</h1>
+		<nav className="sticky top-0 z-50 bg-brand-bg border-b border-brand-text/15 px-6 py-4 flex justify-between items-center backdrop-blur">
+			<h1 className="text-xl font-bold tracking-wide text-brand-text">LEAD</h1>
 
 			<div className="flex items-center gap-6">
-				<Link to="/" className="text-gray-700 hover:text-blue-600">
+				<Link
+					to="/"
+					className="text-brand-text/85 hover:text-brand-text font-medium transition"
+				>
 					Dashboard
 				</Link>
 
-				<Link to="/leads" className="text-gray-700 hover:text-blue-600">
+				<Link
+					to="/leads"
+					className="text-brand-text/85 hover:text-brand-text font-medium transition"
+				>
 					Leads
 				</Link>
 
 				<button
 					onClick={handleLogout}
-					className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+					className="bg-brand-text text-brand-bg px-3 py-1 rounded-md hover:opacity-90 transition"
 				>
 					Logout
 				</button>

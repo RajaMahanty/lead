@@ -196,29 +196,32 @@ export default function Leads() {
 		}
 	};
 
-	if (loading) return <p className="p-6 text-gray-600">Loading leads...</p>;
+	if (loading)
+		return <p className="p-6 text-brand-text/80">Loading leads...</p>;
 
 	return (
-		<div className="min-h-screen bg-gray-100 p-6">
+		<div className="min-h-screen bg-brand-bg p-6">
 			<div className="max-w-6xl mx-auto">
 				<div className="mb-6 flex items-center justify-between gap-3">
-					<h1 className="text-3xl font-bold text-gray-800">Leads Dashboard</h1>
+					<h1 className="text-3xl font-bold text-brand-text">
+						Leads Dashboard
+					</h1>
 					<button
 						type="button"
 						onClick={openAddLeadModal}
-						className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+						className="bg-brand-text text-brand-bg px-4 py-2 rounded-lg hover:opacity-90 transition"
 					>
 						+ Add Lead
 					</button>
 				</div>
-				<p className="text-sm text-gray-500 mt-1 mb-4">
+				<p className="text-sm text-brand-text/70 mt-1 mb-4">
 					Click a lead row to manage details, status, and compose email.
 				</p>
 
-				<div className="bg-white shadow-lg rounded-xl overflow-hidden">
+				<div className="bg-white/75 shadow-lg rounded-xl border border-brand-text/15 overflow-hidden">
 					<table className="w-full">
-						<thead className="bg-gray-50 border-b">
-							<tr className="text-left text-gray-600 text-sm">
+						<thead className="bg-brand-bg/70 border-b border-brand-text/15">
+							<tr className="text-left text-brand-text/80 text-sm">
 								<th className="p-4">Lead</th>
 								<th className="p-4">Contact</th>
 								<th className="p-4">Phone</th>
@@ -231,7 +234,7 @@ export default function Leads() {
 								<tr
 									key={lead._id}
 									onClick={() => openLeadModal(lead)}
-									className="border-b hover:bg-gray-50 transition cursor-pointer"
+									className="border-b border-brand-text/10 hover:bg-brand-bg/60 transition cursor-pointer"
 								>
 									<td className="p-4 flex items-center gap-3">
 										{lead.image ? (
@@ -241,22 +244,22 @@ export default function Leads() {
 												className="w-10 h-10 rounded-full object-cover"
 											/>
 										) : (
-											<div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-sm">
+											<div className="w-10 h-10 rounded-full bg-brand-text/15 text-brand-text flex items-center justify-center text-sm font-semibold">
 												{lead.name[0]}
 											</div>
 										)}
 
 										<div>
-											<p className="font-medium text-gray-800">{lead.name}</p>
-											<p className="text-xs text-gray-500">{lead.email}</p>
+											<p className="font-medium text-brand-text">{lead.name}</p>
+											<p className="text-xs text-brand-text/70">{lead.email}</p>
 										</div>
 									</td>
 
-									<td className="p-4 text-gray-600">{lead.email}</td>
-									<td className="p-4 text-gray-600">{lead.phone}</td>
+									<td className="p-4 text-brand-text/80">{lead.email}</td>
+									<td className="p-4 text-brand-text/80">{lead.phone}</td>
 
 									<td className="p-4">
-										<span className="px-3 py-1 text-xs rounded-full font-semibold border capitalize">
+										<span className="px-3 py-1 text-xs rounded-full font-semibold border border-brand-text/30 text-brand-text bg-brand-bg capitalize">
 											{lead.status}
 										</span>
 									</td>
@@ -266,7 +269,7 @@ export default function Leads() {
 					</table>
 
 					{leads.length === 0 && (
-						<p className="p-6 text-center text-gray-500">No leads found</p>
+						<p className="p-6 text-center text-brand-text/70">No leads found</p>
 					)}
 				</div>
 			</div>
